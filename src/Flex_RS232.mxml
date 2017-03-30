@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   width="452" height="326"
+					   initialize="initApp()">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.quetwo.Arduino.ArduinoConnector;
+			import com.quetwo.Arduino.ArduinoConnectorEvent;
+			private var comport:ArduinoConnector;
+			private function initApp():void
+			{
+				comport = new ArduinoConnector();
+				comport.connect("COM1",9600);
+				comport.addEventListener("socketData",getRFdata);
+			}
+			protected function getRFdata(event:ArduinoConnectorEvent):void
+			{
+				rfID.text += comport.readBytesAsString();
+			}
+		]]>
+	</fx:Script>
+	<s:TextArea id="rfID" x="132" y="78"/>
+</s:WindowedApplication>
